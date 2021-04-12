@@ -1,6 +1,3 @@
-import numpy as np
-
-
 class LieGroup:
     def __init__(self):
         pass
