@@ -24,10 +24,10 @@ def flow(
     Y = np.array(y)
 
     while not np.isclose(t_end - t, 0):
-        h = min(h, t_end - t_start)
+        h = min(h, t_end - t)
         hmanifold.y = timestepper.step(f, t, hmanifold.y, h)
         t = t + h
         Y = np.column_stack((Y, hmanifold.y))
         T.append(t)
 
-    return np.transpose(Y), np.array(T)
+    return Y, np.array(T)
