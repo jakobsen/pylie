@@ -11,9 +11,7 @@ class HomogenousSphere(HomogenousManifold):
         self.y = y
         self.lie_group = SOLieGroup()
         self.lie_algebra = soLieAlgebra()
-        self.exp = self.lie_algebra.exp
-        self.dexpinv = self.lie_algebra.dexpinv
-        self.action = self.lie_group.action
+        super().__init__()
 
     @property
     def y(self):
