@@ -1,3 +1,4 @@
 venv/
 .vscode/
 .flake8
+**/__pycache__
