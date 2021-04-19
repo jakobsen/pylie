@@ -5,10 +5,8 @@ class HomogenousManifold:
     """
 
     def __init__(self, *args):
-        self.lie_group = None
-        self.lie_algebra = None
         self.exp = self.lie_algebra.exp
-        self.dexp = self.lie_algebra.dexp
+        self.dexpinv = self.lie_algebra.dexpinv
         self.action = self.lie_group.action
 
     def dist(self, a, b):
