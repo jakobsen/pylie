@@ -63,6 +63,8 @@ class soLieAlgebra(LieAlgebra):
                 - 0.5 * U
                 - (2 - alpha * cot(0.5 * alpha)) / (2 * alpha ** 2) * U @ U
             ) @ v
+        else:
+            return super().dexpinv(u, v)
 
     def matrix(self, y):
         if y.size != 3:
