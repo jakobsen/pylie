@@ -1,6 +1,13 @@
 import numpy as np
 
 
+def inv_hat(A):
+    u = A[2, 1]
+    v = A[0, 2]
+    w = A[1, 0]
+    return np.array([u, v, w])
+
+
 class TimeStepper:
     def __init__(self, exp, dexpinv, action):
         self.exp = exp
@@ -14,18 +21,20 @@ class TimeStepper:
 
     def step(self, f, t, y, h):
         n = y.size
-        k = np.zeros((n, self.s))
-        k_tilde = np.zeros(k.shape)
+        k_tilde = np.zeros((n, self.s))
         for i in range(self.s):
             u = np.zeros(n)
             for j in range(i - 1):
                 # Explicit method, a is lower-triangular
                 u += self.a[i, j] * k_tilde[:, j]
-            u *= h
-            k[:, i] = f(t + self.c[i] * h, self.action(self.exp(u), y))
-            k_tilde[:, i] = self.dexpinv(u, k[:, i], self.order)
-        v = h * np.sum(k_tilde @ np.diag(self.b), axis=1)
-        return self.action(self.exp(v), y)
+            k = f(t + self.c[i] * h, self.action(self.exp(h * u), y))
+            if len(k.shape) != 1:
+                k = inv_hat(k)
+            k_tilde[:, i] = self.dexpinv(u, k, self.order)
+        v = np.zeros(y.size)
+        for i in range(self.s):
+            v += self.b[i] * k_tilde[:, i]
+        return self.action(self.exp(h * v), y)
 
 
 class EulerLie(TimeStepper):
