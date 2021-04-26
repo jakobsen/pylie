@@ -2,3 +2,4 @@ venv/
 .vscode/
 .flake8
 **/__pycache__
+**.ipynb
