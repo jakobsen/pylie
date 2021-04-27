@@ -1,4 +1,4 @@
-from diffpy import flow
+import diffpy
 import numpy as np
 from scipy.integrate import solve_ivp
 import matplotlib.pyplot as plt
@@ -19,7 +19,7 @@ if __name__ == "__main__":
         return f(t, y) @ y
 
     y0 = np.array([0.0, 0.0, 1.0])
-    Y_diffpy, T = flow(f, y0, 0, 5, 0.01, "hmnsphere", "E1")
+    Y_diffpy, T = diffpy.solve_ivp(f, y0, 0, 5, 0.01, "hmnsphere", "E1")
     Y_scipy = solve_ivp(f_scipy, (0, 5), y0, t_eval=T, rtol=1e-13, atol=1e-13).y
 
     ##### 3D BEGIN ##### noqa: E266

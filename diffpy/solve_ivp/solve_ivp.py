@@ -8,7 +8,7 @@ MANIFOLDS = {"hmnsphere": HomogenousSphere}
 METHODS = {"E1": EulerLie, "RKMK4": RKMK4}
 
 
-def flow(
+def solve_ivp(
     f: Callable[[float, Iterable], Iterable],
     y,
     t_start,
