@@ -1,7 +1,7 @@
 import numpy as np
-from hmanifold.hmanifold import HomogenousManifold
-from liealgebra.liealgebra import soLieAlgebra
-from liegroup.liegroup import SOLieGroup
+from .hmanifold import HomogenousManifold
+from ..liealgebra import soLieAlgebra
+from ..liegroup.liegroup import SOLieGroup
 
 
 class HomogenousSphere(HomogenousManifold):

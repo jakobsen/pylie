@@ -1,7 +1,7 @@
 import numpy as np
 from typing import Callable, Iterable
-from hmanifold.hmnsphere import HomogenousSphere
-from timestepper.timestepper import EulerLie, RKMK4
+from ..hmanifold import HomogenousSphere
+from ..timestepper import EulerLie, RKMK4
 
 MANIFOLDS = {"hmnsphere": HomogenousSphere}
 
