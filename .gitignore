@@ -4,3 +4,6 @@ venv/
 **/__pycache__
 **.ipynb
 main.py
+build/
+dist/
+**.egg-info
