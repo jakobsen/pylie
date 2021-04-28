@@ -1,4 +1,4 @@
-import diffpy
+import pylie
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -20,7 +20,7 @@ if __name__ == "__main__":
     step_length = 0.01
     manifold = "hmnsphere"
     method = "RKMK4"
-    solution = diffpy.solve(A, y0, t_start, t_end, step_length, manifold, method)
+    solution = pylie.solve(A, y0, t_start, t_end, step_length, manifold, method)
 
     fig = plt.figure()
     ax = fig.add_subplot(projection='3d')

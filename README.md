@@ -1,4 +1,4 @@
-# DiffPy
+# PyLie
 
 <p align="center">
 A Python package for solving ordinary differential equations evolving on non-linear manifolds.
@@ -7,7 +7,7 @@ A Python package for solving ordinary differential equations evolving on non-lin
 This package is distributed with the [Python package index](https://pypi.org/). To install it, use
 
 ```bash
-$ pip install diffpy
+$ pip install pylie
 ```
 
 In order to solve an ODE, the differential must first be described in its canonical Lie form – that is, as a mapping from the manifold to the corresponding Lie algebra.
@@ -57,7 +57,7 @@ To solve the problem, we use the following code:
 
 ```py
 import numpy as np
-import diffpy
+import pylie
 
 ### Code defining or importing A(t, y) ###
 
@@ -67,7 +67,7 @@ t_end = 5
 step_length = 0.1
 manifold = "hmnsphere"
 method = "RKMK4"
-solution = diffpy.solve(A, y0, t_start, t_end, step_length, manifold, method)
+solution = pylie.solve(A, y0, t_start, t_end, step_length, manifold, method)
 ```
 
 The variable `solution` is now a `Flow` object with two attributes: `T`, a one-dimensional numpy array containing the times at which the solution is computed, `Y`, a `3-by-n` numpy array where column `Y[i, :]` is the solution at time `T[i]`.
@@ -76,7 +76,7 @@ If you wish you may also extract the variables `Y` and `T` directly by using
 
 ```py
 # If solution is not yet computed:
-Y, T = diffpy.solve(A, y0, t_start, t_end, step_length, manifold, method)
+Y, T = pylie.solve(A, y0, t_start, t_end, step_length, manifold, method)
 
 # Or, if you followed the example above
 Y, T = solution
@@ -98,7 +98,7 @@ plt.show()
 This file is also avaiable in [`/docs/example.py`](/docs/example.py).
 
 ```py
-import diffpy
+import pylie
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -120,7 +120,7 @@ if __name__ == "__main__":
     step_length = 0.01
     manifold = "hmnsphere"
     method = "RKMK4"
-    solution = diffpy.solve(A, y0, t_start, t_end, step_length, manifold, method)
+    solution = pylie.solve(A, y0, t_start, t_end, step_length, manifold, method)
 
     fig = plt.figure()
     ax = fig.add_subplot(projection='3d')
