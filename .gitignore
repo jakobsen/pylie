@@ -3,3 +3,4 @@ venv/
 .flake8
 **/__pycache__
 **.ipynb
+main.py
