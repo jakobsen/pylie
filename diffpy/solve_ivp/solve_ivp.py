@@ -1,11 +1,27 @@
 import numpy as np
-from typing import Callable, Iterable
+from collections.abc import Iterable
+from typing import Callable
 from ..hmanifold import HomogenousSphere
 from ..timestepper import EulerLie, RKMK4
 
 MANIFOLDS = {"hmnsphere": HomogenousSphere}
-
 METHODS = {"E1": EulerLie, "RKMK4": RKMK4}
+
+
+class Flow:
+    def __init__(self, Y, T):
+        if not isinstance(Y, np.ndarray):
+            raise TypeError("Y must be a numpy array")
+        if not isinstance(T, Iterable):
+            raise TypeError("T must be array-like")
+        self.Y = Y
+        self.T = T
+
+    def __iter__(self):
+        yield from (self.Y.transpose(), self.T)
+
+    def __getitem__(self, key):
+        return self.Y[key]
 
 
 def solve_ivp(
@@ -30,4 +46,4 @@ def solve_ivp(
         Y = np.column_stack((Y, hmanifold.y))
         T.append(t)
 
-    return Y, np.array(T)
+    return Flow(Y, np.array(T))
