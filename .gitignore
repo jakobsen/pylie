@@ -7,3 +7,4 @@ main.py
 build/
 dist/
 **.egg-info
+**.key
