@@ -4,8 +4,6 @@
 A Python package for solving ordinary differential equations evolving on non-linear manifolds.
 </p>
 
-**Note: This package is still unfinished. The behaviour below is not yet implemented, but is a work in progress.**
-
 This package is distributed with the [Python package index](https://pypi.org/). To install it, use
 
 ```bash
@@ -15,9 +13,11 @@ $ pip install diffpy
 In order to solve an ODE, the differential must first be described in its canonical Lie form – that is, as a mapping from the manifold to the corresponding Lie algebra.
 For examples, please see below.
 
-## Equation evolving on the unit sphere
+## Example: Equation evolving on the unit sphere
 
-The unit sphere has Lie algebra _so_(3), consisting of 3⨉3 skew-symmetric matrices.
+_The complete code is listed at the bottom of this section if you want to copy-paste it, including a definition of `A(t, y)`._
+
+The unit sphere has Lie algebra _so_(3), consisting of 3-by-3 skew-symmetric matrices (i.e. matrices which satisfy the equation `transpose(A) = -A`).
 Ordinary differential equations where the solution space is the unit sphere may be formulated in the form
 
 ```
@@ -29,7 +29,23 @@ In order to solve the above equation, you must define the function
 
 ```py
 def A(t, y):
-    # return a 3⨉3 skew-symmetric matrix of type np.ndarray
+    # return a 3-by-3 skew-symmetric matrix of type np.ndarray
+```
+
+For instance:
+
+```py
+import numpy as np
+
+
+def A(t, y):
+    return np.array(
+            [
+                [0,                  t,           -0.4 * np.cos(t)],
+                [-t,                 0,                0.1 * t    ],
+                [0.4 * np.cos(t), -0.1 * t,                0      ]
+            ]
+        )
 ```
 
 You must also decide which numerical scheme you would like to use to solve the equation.
@@ -53,20 +69,67 @@ manifold = "hmnsphere"
 method = "RKMK4"
 solution = diffpy.solve(A, y0, t_start, t_end, step_length, manifold, method)
 ```
-The variable `solution` is now a `Flow` object with two attributes: `T`, a one-dimensional numpy array containing the times at which the solution is computed, `Y`, a `3 ⨉ n` numpy array where column `Y[i, :]` is the solution at time `T[i]`.
+
+The variable `solution` is now a `Flow` object with two attributes: `T`, a one-dimensional numpy array containing the times at which the solution is computed, `Y`, a `3-by-n` numpy array where column `Y[i, :]` is the solution at time `T[i]`.
 It is also possible to use indexing directly on the object: `solution[i, j]` is equivalent to `solution.Y[i, j]`.
+If you wish you may also extract the variables `Y` and `T` directly by using
+
+```py
+# If solution is not yet computed:
+Y, T = diffpy.solve(A, y0, t_start, t_end, step_length, manifold, method)
+
+# Or, if you followed the example above
+Y, T = solution
+```
 
 The following is a suggestion in order to plot the solution:
 
 ```py
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D # noqa
 
 fig = plt.figure()
 ax = fig.add_subplot(projection="3d")
-ax.plot(Y_diffpy[0, :], Y_diffpy[1, :], Y_diffpy[2, :])
+ax.plot(solution[0, :], solution[1, :], solution[2, :])
 plt.show()
 ```
 
+### Full example
+
+This file is also avaiable in [`/docs/example.py`](/docs/example.py).
+
+```py
+import diffpy
+import numpy as np
+import matplotlib.pyplot as plt
+
+
+def A(t, y):
+    return np.array(
+            [
+                [0,                  t,           -0.4 * np.cos(t)],
+                [-t,                 0,                0.1 * t    ],
+                [0.4 * np.cos(t), -0.1 * t,                0      ]
+            ]
+        )
+
+
+if __name__ == "__main__":
+    y0 = [0.0, 0.0, 1.0]
+    t_start = 0
+    t_end = 5
+    step_length = 0.01
+    manifold = "hmnsphere"
+    method = "RKMK4"
+    solution = diffpy.solve(A, y0, t_start, t_end, step_length, manifold, method)
+
+    fig = plt.figure()
+    ax = fig.add_subplot(projection='3d')
+    ax.plot(solution[0, :], solution[1, :], solution[2, :])
+    plt.show()
+
+```
 
 ## Available numerical schemes
+
+- `"E1"`: Explicit Euler, 1st order
+- `"RKMK4"`: Runge-Kutta Munthe-Kaas 4, 4th order
