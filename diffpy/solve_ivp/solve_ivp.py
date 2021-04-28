@@ -4,8 +4,8 @@ from typing import Callable
 from ..hmanifold import HomogenousSphere
 from ..timestepper import EulerLie, RKMK4
 
-MANIFOLDS = {"hmnsphere": HomogenousSphere}
-METHODS = {"E1": EulerLie, "RKMK4": RKMK4}
+_MANIFOLDS = {"hmnsphere": HomogenousSphere}
+_METHODS = {"E1": EulerLie, "RKMK4": RKMK4}
 
 
 class Flow:
@@ -33,8 +33,8 @@ def solve_ivp(
     manifold: str,
     method: str,
 ):
-    hmanifold = MANIFOLDS[manifold](y)
-    timestepper = METHODS[method](hmanifold.exp, hmanifold.dexpinv, hmanifold.action)
+    hmanifold = _MANIFOLDS[manifold](y)
+    timestepper = _METHODS[method](hmanifold.exp, hmanifold.dexpinv, hmanifold.action)
     t = t_start
     T = [t]
     Y = np.array(y)
