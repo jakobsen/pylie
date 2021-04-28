@@ -19,8 +19,8 @@ if __name__ == "__main__":
         return f(t, y) @ y
 
     y0 = np.array([0.0, 0.0, 1.0])
-    Y_diffpy, T = diffpy.solve_ivp(f, y0, 0, 5, 0.01, "hmnsphere", "E1")
-    Y_scipy = solve_ivp(f_scipy, (0, 5), y0, t_eval=T, rtol=1e-13, atol=1e-13).y
+    flow = diffpy.solve(f, y0, 0, 5, 0.01, "hmnsphere", "E1")
+    Y_scipy = solve_ivp(f_scipy, (0, 5), y0, t_eval=flow.T, rtol=1e-13, atol=1e-13).y
 
     ##### 3D BEGIN ##### noqa: E266
     # Create a sphere
@@ -36,7 +36,7 @@ if __name__ == "__main__":
     fig = plt.figure(dpi=150)
     ax = fig.add_subplot(projection="3d")
     ax.plot_surface(X, Y, Z, rstride=1, cstride=1, color="c", alpha=0.3, linewidth=0)
-    ax.plot(Y_diffpy[0, :], Y_diffpy[1, :], Y_diffpy[2, :])
+    ax.plot(flow[0, :], flow[1, :], flow[2, :])
     ax.plot(Y_scipy[0, :], Y_scipy[1, :], Y_scipy[2, :])
 
     max_range = np.array(

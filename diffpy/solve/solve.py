@@ -24,7 +24,7 @@ class Flow:
         return self.Y[key]
 
 
-def solve_ivp(
+def solve(
     f: Callable[[float, Iterable], Iterable],
     y,
     t_start,
