@@ -9,3 +9,4 @@ dist/
 **.egg-info
 **.key
 .pypirc
+**.DS_Store
