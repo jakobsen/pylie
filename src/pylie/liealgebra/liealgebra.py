@@ -58,6 +58,10 @@ class soLieAlgebra(LieAlgebra):
 
             alpha = np.linalg.norm(u)
             U = self.matrix(u)
+
+            # Convert v from the matrix representation to the basis representation
+            v = np.array([v[2, 1], v[0, 2], v[1, 0]])
+
             return (
                 np.eye(3)
                 - 0.5 * U
@@ -70,10 +74,4 @@ class soLieAlgebra(LieAlgebra):
         if y.size != 3:
             raise NotImplementedError("Not yet implemented for n != 3")
         u, v, w = y
-        return np.array(
-            [
-                [0, -w, v],
-                [w, 0, -u],
-                [-v, u, 0],
-            ]
-        )
+        return np.array([[0, -w, v], [w, 0, -u], [-v, u, 0]])

@@ -1,13 +1,6 @@
 import numpy as np
 
 
-def inv_hat(A):
-    u = A[2, 1]
-    v = A[0, 2]
-    w = A[1, 0]
-    return np.array([u, v, w])
-
-
 class TimeStepper:
     def __init__(self, exp, dexpinv, action):
         self.exp = exp
@@ -28,8 +21,6 @@ class TimeStepper:
                 # Explicit method, a is lower-triangular
                 u += self.a[i, j] * k_tilde[:, j]
             k = f(t + self.c[i] * h, self.action(self.exp(h * u), y))
-            if len(k.shape) != 1:
-                k = inv_hat(k)
             k_tilde[:, i] = self.dexpinv(u, k, self.order)
         v = np.zeros(y.size)
         for i in range(self.s):
