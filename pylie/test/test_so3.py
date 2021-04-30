@@ -18,9 +18,8 @@ class Testso3(unittest.TestCase):
         manifold = "hmnsphere"
         method = "RKMK4"
         solution = solve(A, y0, t_start, t_end, step_length, manifold, method)
-        for i in range(solution.T):
-            self.assertEqual(np.linalg.norm(solution[:, i]), 1)
-        print("Test passed")
+        for i in range(len(solution.T)):
+            self.assertAlmostEqual(np.linalg.norm(solution[:, i]), 1.0)
 
 
 if __name__ == "__main__":
