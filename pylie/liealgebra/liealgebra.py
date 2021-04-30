@@ -50,6 +50,9 @@ class soLieAlgebra(LieAlgebra):
         if u.size == 3 and u.ndim == 1:
             # Use Rodrigues formula
 
+            # Convert v from the matrix representation to the basis representation
+            v = np.array([v[2, 1], v[0, 2], v[1, 0]])
+
             # Check for the zero vector
             if np.array_equal(u, np.zeros(3)):
                 return v
@@ -59,9 +62,11 @@ class soLieAlgebra(LieAlgebra):
             alpha = np.linalg.norm(u)
             U = self.matrix(u)
 
-            # Convert v from the matrix representation to the basis representation
-            v = np.array([v[2, 1], v[0, 2], v[1, 0]])
-
+            ans = (
+                np.eye(3)
+                - 0.5 * U
+                - (2 - alpha * cot(0.5 * alpha)) / (2 * alpha ** 2) * U @ U
+            ) @ v
             return (
                 np.eye(3)
                 - 0.5 * U
