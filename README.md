@@ -50,7 +50,7 @@ def A(t, y):
 
 You must also decide which numerical scheme you would like to use to solve the equation.
 Higher-order methods provide a more accurate solution, but are more computationally expensive.
-For a list of available methods, see [available numerical schemes](#Available-numerical-schemes).
+For a list of available methods, see [available numerical schemes](#available-numerical-schemes).
 In this example, we will use the Lie group method corresponding to the fourth order Runge-Kutta method.
 
 To solve the problem, we use the following code:
@@ -95,7 +95,7 @@ plt.show()
 
 ### Full example
 
-This file is also avaiable in [`/docs/example.py`](/docs/example.py).
+This file is also avaiable in [`/docs/unit_sphere_example.py`](/docs/unit_sphere_example.py).
 
 ```py
 from numpy.testing import assert_almost_equal
@@ -123,6 +123,51 @@ if __name__ == "__main__":
     solution_norm = [np.linalg.norm(solution[:, i]) for i in range(len(solution.T))]
     for val in solution_norm:
         assert_almost_equal(val, 1.0)
+    print("Passed test, plotting ...")
+
+    fig = plt.figure()
+    ax = fig.add_subplot(projection="3d")
+    ax.plot(solution[0, :], solution[1, :], solution[2, :])
+    plt.show()
+
+```
+
+## Example: The heavy top
+
+A more detailed explanation is in progress.
+Until then, the code for the full example is avaible below and in the file [`/docs/heavy_top_example.py`](/docs/heavy_top_example.py).
+
+```py
+from numpy.testing import assert_almost_equal
+import pylie
+import numpy as np
+import matplotlib.pyplot as plt
+
+
+def heavy_top(
+    t, y, principal_moments=np.array([2, 2, 1]), m=1, g=1, chi=np.array([0, 0, 1])
+):
+    """A formulation of the problem exploiting the Lie-group structure"""
+    mu, beta = np.split(y, 2)
+    mu_dot = -mu / principal_moments
+    beta_dot = -m * g * chi
+    return np.hstack((mu_dot, beta_dot))
+
+
+if __name__ == "__main__":
+    y0 = np.array([np.sin(1.1), 0, np.cos(1.1), 1, 0.2, 3])
+    t_start = 0
+    t_end = 5
+    step_length = 0.01
+    manifold = "heavytop"
+    method = "RKMK4"
+    solution = pylie.solve(heavy_top, y0, t_start, t_end, step_length, manifold, method)
+
+    # Verify that the solution is indeed on the manifold
+    expexted_norm = np.linalg.norm(y0[3:])
+    solution_norm = [np.linalg.norm(solution[3:, i]) for i in range(len(solution.T))]
+    for val in solution_norm:
+        assert_almost_equal(val, expexted_norm)
     print("Passed test, plotting ...")
 
     fig = plt.figure()
