@@ -1,12 +1,11 @@
 import numpy as np
 from .hmanifold import HomogenousManifold
 from ..liealgebra import soLieAlgebra
-from ..liegroup.liegroup import SOLieGroup
+from ..liegroup import SOLieGroup
 
 
 class HomogenousSphere(HomogenousManifold):
     def __init__(self, y):
-        # Start with the unit vector pointing north
         if not isinstance(y, np.ndarray):
             try:
                 y = np.array(y)
@@ -15,7 +14,7 @@ class HomogenousSphere(HomogenousManifold):
         self.n = y.size
         self.y = y
         self.lie_group = SOLieGroup()
-        self.lie_algebra = soLieAlgebra()
+        self.lie_algebra = soLieAlgebra(self.lie_group)
         super().__init__()
 
     @property
