@@ -25,7 +25,7 @@ class TestHeavyTop(unittest.TestCase):
         t_end = 5
         step_length = 0.01
         manifold = "heavytop"
-        method = "E1"
+        method = "RKMK4"
         solution = solve(
             spinning_top, y0, t_start, t_end, step_length, manifold, method
         )  # noqa: E501
