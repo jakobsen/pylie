@@ -1,4 +1,6 @@
 from ..solve import solve
+from ..liegroup import SOLieGroup
+from ..liealgebra import soLieAlgebra
 import numpy as np
 import unittest
 
@@ -10,6 +12,15 @@ def A(t, y):
 
 
 class Testso3(unittest.TestCase):
+    def test_matrix_representation(self):
+        # Matrix-multiplication should be equal to the cross product
+        so3 = soLieAlgebra(SOLieGroup())
+        for _ in range(20):
+            x = np.random.random(3)
+            y = np.random.random(3)
+            x_hat = so3.matrix(x)
+            np.testing.assert_array_equal(x_hat @ y, np.cross(x, y))
+
     def test_solve(self):
         y0 = [0.0, 0.0, 1.0]
         t_start = 0
