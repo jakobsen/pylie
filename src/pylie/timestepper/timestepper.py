@@ -2,10 +2,10 @@ import numpy as np
 
 
 class TimeStepper:
-    def __init__(self, exp, dexpinv, action):
-        self.exp = exp
-        self.dexpinv = dexpinv
-        self.action = action
+    def __init__(self, manifold):
+        self.exp = manifold.exp
+        self.dexpinv = manifold.dexpinv
+        self.action = manifold.action
         self.a = None
         self.b = None
         self.c = None
@@ -29,8 +29,8 @@ class TimeStepper:
 
 
 class EulerLie(TimeStepper):
-    def __init__(self, exp, dexpinv, action):
-        super().__init__(exp, dexpinv, action)
+    def __init__(self, manifold):
+        super().__init__(manifold)
         self.a = np.array([[0]])
         self.b = np.array([1])
         self.c = np.array([0])
@@ -39,8 +39,8 @@ class EulerLie(TimeStepper):
 
 
 class RKMK4(TimeStepper):
-    def __init__(self, exp, dexpinv, action):
-        super().__init__(exp, dexpinv, action)
+    def __init__(self, manifold):
+        super().__init__(manifold)
         # fmt: off
         self.a = np.array(
             [

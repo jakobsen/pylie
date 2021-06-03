@@ -108,7 +108,7 @@ def solve(
         to `flow.Y[i, j]`.
     """
     hmanifold = _MANIFOLDS[manifold](y)
-    timestepper = _METHODS[method](hmanifold.exp, hmanifold.dexpinv, hmanifold.action)
+    timestepper = _METHODS[method](hmanifold)
     t = t_start
     T = [t]
     Y = np.array(y)
