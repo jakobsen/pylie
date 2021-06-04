@@ -1,3 +1,3 @@
-from .solve import solve
+from .solve import solve, _MANIFOLDS, _METHODS
 
 __all__ = ["solve"]

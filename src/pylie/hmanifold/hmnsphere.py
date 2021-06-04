@@ -5,7 +5,7 @@ from ..liegroup import SOLieGroup
 
 
 class HomogenousSphere(HomogenousManifold):
-    def __init__(self, y):
+    def __init__(self, y=np.array([0, 0, 1])):
         if not isinstance(y, np.ndarray):
             try:
                 y = np.array(y)
@@ -15,6 +15,7 @@ class HomogenousSphere(HomogenousManifold):
         self.y = y
         self.lie_group = SOLieGroup()
         self.lie_algebra = soLieAlgebra(self.lie_group)
+        self.description = "The S2 sphere. Corresponding Lie group SO(n)."
         super().__init__()
 
     @property
