@@ -3,10 +3,15 @@ from collections.abc import Iterable
 from typing import Callable
 
 from ..hmanifold import HomogenousSphere, HeavyTop
-from ..timestepper import EulerLie, RKMK4
+from ..timestepper import EulerLie, ImprovedEulerLie, SSPRKMK3, RKMK4
 
 _MANIFOLDS = {"hmnsphere": HomogenousSphere, "heavytop": HeavyTop}
-_METHODS = {"E1": EulerLie, "RKMK4": RKMK4}
+_METHODS = {
+    "E1": EulerLie,
+    "E2": ImprovedEulerLie,
+    "SSPRKMK3": SSPRKMK3,
+    "RKMK4": RKMK4,
+}
 
 
 class Flow:

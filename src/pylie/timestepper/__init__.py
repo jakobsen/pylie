@@ -1,3 +1,3 @@
-from .timestepper import EulerLie, RKMK4
+from .timestepper import EulerLie, ImprovedEulerLie, SSPRKMK3, RKMK4
 
-__all__ = ["EulerLie", "RKMK4"]
+__all__ = ["EulerLie", "ImprovedEulerLie", "SSPRKMK3", "RKMK4"]
