@@ -58,7 +58,6 @@ class soLieAlgebra(LieAlgebra):
             if np.isclose(alpha, 0):
                 return v_vector
             u_hat = self.matrix(u)
-            assert (u_hat @ v_vector == np.cross(u, v_vector)).all()
             lhs = (
                 np.eye(3)
                 - 0.5 * u_hat
