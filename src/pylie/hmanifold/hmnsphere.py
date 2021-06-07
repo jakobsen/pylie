@@ -6,6 +6,7 @@ from ..liegroup import SOLieGroup
 
 class HomogenousSphere(HomogenousManifold):
     """The S2 sphere. Corresponding Lie group SO(n)."""
+
     def __init__(self, y=np.array([0, 0, 1])):
         if not isinstance(y, np.ndarray):
             try:
@@ -26,8 +27,8 @@ class HomogenousSphere(HomogenousManifold):
     def y(self, value):
         if value.size != self.n:
             raise ValueError("y does not have the correct dimension")
-        elif not np.isclose(np.linalg.norm(value), 1.0):
+        elif not np.isclose(np.inner(value, value), 1.0):
             raise ValueError(
-                f"y does not lie on the N-sphere. ||y|| should be one, was {np.linalg.norm(value)}" # noqa
+                f"y does not lie on the N-sphere. y^T . y should be one, was {np.inner(value, value)}"  # noqa
             )
         self._y = value
