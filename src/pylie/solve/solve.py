@@ -115,6 +115,7 @@ def solve(
     T = [t_start + i * h for i in range(N_steps + 1)]
     number_of_cols = N_steps + 1 if np.isclose(last_step, 0) else N_steps + 2
     Y = np.zeros((len(y), number_of_cols))
+    Y[:, 0] = y
     for i in range(1, N_steps + 1):
         # The y attribute of hmanifold is used to check against constraints
         # on elements of the given manifold
