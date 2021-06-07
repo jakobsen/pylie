@@ -52,25 +52,19 @@ class soLieAlgebra(LieAlgebra):
     def dexpinv(self, u, v, _):
         if u.size == 3 and u.ndim == 1:
             # Use Rodrigues formula
-
-            # Convert v from the matrix representation to the basis representation
-            v = np.array([v[2, 1], v[0, 2], v[1, 0]])
-
-            # Check for the zero vector
-            if np.array_equal(u, np.zeros(3)):
-                return v
-
-            cot = lambda x: 1 / np.tan(x)  # noqa: E731
-
+            v_vector = np.array([v[2, 1], v[0, 2], v[1, 0]])
             alpha = np.linalg.norm(u)
-            U = self.matrix(u)
-
-            return self.action(
+            # Check for the zero vector
+            if np.isclose(alpha, 0):
+                return v_vector
+            u_hat = self.matrix(u)
+            assert (u_hat @ v_vector == np.cross(u, v_vector)).all()
+            lhs = (
                 np.eye(3)
-                - 0.5 * U
-                - (2 - alpha * cot(0.5 * alpha)) / (2 * alpha ** 2) * U @ U,
-                v,
+                - 0.5 * u_hat
+                + (2 - alpha / np.tan(0.5 * alpha)) / (2 * alpha ** 2) * u_hat @ u_hat
             )
+            return self.action(lhs, v_vector)
         else:
             return super().dexpinv(u, v)
 
