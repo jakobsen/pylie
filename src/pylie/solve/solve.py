@@ -1,6 +1,7 @@
 import numpy as np
 from collections.abc import Iterable
 from typing import Callable
+
 from ..hmanifold import HomogenousSphere, HeavyTop
 from ..timestepper import EulerLie, RKMK4
 
@@ -109,15 +110,19 @@ def solve(
     """
     hmanifold = _MANIFOLDS[manifold](y)
     timestepper = _METHODS[method](hmanifold)
-    t = t_start
-    T = [t]
-    Y = np.array(y)
-
-    while not np.isclose(t_end - t, 0):
-        h = min(h, t_end - t)
-        hmanifold.y = timestepper.step(f, t, hmanifold.y, h)
-        t = t + h
-        Y = np.column_stack((Y, hmanifold.y))
-        T.append(t)
-
-    return Flow(Y, np.array(T))
+    N_steps, last_step = divmod((t_end - t_start), h)
+    N_steps = int(N_steps)
+    T = [t_start + i * h for i in range(N_steps + 1)]
+    number_of_cols = N_steps + 1 if np.isclose(last_step, 0) else N_steps + 2
+    Y = np.zeros((len(y), number_of_cols))
+    for i in range(1, N_steps + 1):
+        # The y attribute of hmanifold is used to check against constraints
+        # on elements of the given manifold
+        # If anything fails here, it will raise an error
+        hmanifold.y = timestepper.step(f, T[i - 1], hmanifold.y, h)
+        Y[:, i] = hmanifold.y
+    if not np.isclose(last_step, 0):
+        hmanifold.y = timestepper.step(f, T[-1], hmanifold.y, last_step)
+        Y[:, -1] = hmanifold.y
+        T.append(t_end)
+    return Flow(Y, T)
