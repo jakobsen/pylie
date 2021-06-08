@@ -10,3 +10,4 @@ dist/
 **.key
 .pypirc
 **.DS_Store
+numerical_experiments/*
