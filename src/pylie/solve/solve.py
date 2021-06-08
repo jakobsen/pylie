@@ -2,10 +2,14 @@ import numpy as np
 from collections.abc import Iterable
 from typing import Callable
 
-from ..hmanifold import HomogenousSphere, HeavyTop
+from ..hmanifold import HomogenousSphere, HeavyTop, SphericalPendulum
 from ..timestepper import EulerLie, ImprovedEulerLie, SSPRKMK3, RKMK4
 
-_MANIFOLDS = {"hmnsphere": HomogenousSphere, "heavytop": HeavyTop}
+_MANIFOLDS = {
+    "hmnsphere": HomogenousSphere,
+    "heavytop": HeavyTop,
+    "pendulum": SphericalPendulum,
+}
 _METHODS = {
     "E1": EulerLie,
     "E2": ImprovedEulerLie,

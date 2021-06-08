@@ -1,3 +1,3 @@
-from .liegroup import SOLieGroup, SELieGroup
+from .liegroup import SOLieGroup, SELieGroup, SE_NLieGroup
 
-__all__ = ["SOLieGroup", "SELieGroup"]
+__all__ = ["SOLieGroup", "SELieGroup", "SE_NLieGroup"]

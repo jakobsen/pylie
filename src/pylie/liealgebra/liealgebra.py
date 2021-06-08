@@ -145,3 +145,21 @@ class seLieAlgebra(LieAlgebra):
             )
         )
         return np.hstack((c1, c2))
+
+
+class se_nLieAlgebra(seLieAlgebra):
+    def exp(self, y):
+        N = len(y) // 6
+        ans = []
+        for i in range(N):
+            ans.append(super().exp(y[6 * i : 6 * i + 6]))
+        return ans
+
+    def dexpinv(self, u, v, _=None):
+        N = len(u) // 6
+        ans = np.zeros(len(u))
+        for i in range(N):
+            ans[6 * i : 6 * i + 6] = super().dexpinv(
+                u[6 * i : 6 * i + 6], v[6 * i : 6 * i + 6]
+            )
+        return ans

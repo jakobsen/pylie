@@ -1,3 +1,3 @@
-from .liealgebra import LieAlgebra, soLieAlgebra, seLieAlgebra
+from .liealgebra import LieAlgebra, soLieAlgebra, seLieAlgebra, se_nLieAlgebra
 
-__all__ = ["LieAlgebra", "soLieAlgebra", "seLieAlgebra"]
+__all__ = ["LieAlgebra", "soLieAlgebra", "seLieAlgebra", "se_nLieAlgebra"]
